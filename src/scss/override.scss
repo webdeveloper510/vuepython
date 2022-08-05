@@ -1,0 +1,44 @@
+@import 'theme/button';
+@import 'theme/sidebar';
+@import 'theme/panel';
+@import 'theme/divider';
+@import 'theme/list';
+@import 'theme/popup';
+@import 'theme/forms';
+@import 'theme/data_table';
+@import 'theme/datepicker';
+@import 'theme/stepper';
+@import 'theme/switch';
+@import 'theme/autocomplete';
+
+.theme--light.v-application{
+    background-color:black;
+    font-size:12px!important;
+}
+
+//@TODO voor datum menu
+//
+.date_menu_container{
+    .v-menu__content{
+        box-shadow:none!important;
+    }
+}
+
+.v-input__slot {
+    align-items: stretch;
+    min-height: 45px !important;
+}
+.mdi-pencil::before {
+    content: "\F03EB";
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+//#inspire{
+//    background-color:blue;
+//}
+
+
