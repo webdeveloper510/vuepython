@@ -313,9 +313,9 @@ getFinence1 : [],
     getFinence: function (){
       
        const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
-         this.$http.get(baseURI).then(function(response){
+    this.$http.get(baseURI).then(function(response){
      if(response.status == "200"){
-      console.log(response.data)    
+          console.log(response.data)    
       }
          })
     },
