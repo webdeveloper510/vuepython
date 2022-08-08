@@ -2,10 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import router from './router'
+import axios from 'axios';
 import store from '@/store'
+import VueCookies from 'vue-cookies';
 import "@mdi/font/css/materialdesignicons.css";
-
+Vue.prototype.$http = axios;
 Vue.config.productionTip = false
+Vue.use(VueCookies);
+
 // global components
 Vue.component()
 

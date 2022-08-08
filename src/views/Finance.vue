@@ -63,6 +63,7 @@
         </v-col>
       </v-row>
       </template>
+      <form @submit.prevent="onSubmit">
       <v-card>
         <v-card-title>
           <span class="text-h5">Invoicen</span>
@@ -74,6 +75,8 @@
                 cols="12">
                 <v-text-field
                   label="Name*"
+                  v-model="form.name"
+                  :value="form.name"
                   required
                 ></v-text-field>
               </v-col>
@@ -81,20 +84,21 @@
               <v-col cols="12">
                 <v-text-field
                   label="Artist*"
+                  v-model="form.artist"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Amount*"
+                  v-model="form.amount"
                   required
                 ></v-text-field>
               </v-col>
               <v-col
                 cols="12">
                <v-checkbox
-               style="opecity:1;"
-                  v-model="paid"
+                  v-model="form.paid"
                   label="Paid-checkbox"
                 ></v-checkbox>
               </v-col>
@@ -113,12 +117,14 @@
           <v-btn
             color="blue darken-1"
             text
+            type="submit"
             @click="dialog = false"
           >
             Save
           </v-btn>
         </v-card-actions>
       </v-card>
+      </form>
     </v-dialog>
   </v-row>
   <v-row>
@@ -207,6 +213,14 @@ export default {
 
   data: () => ({
 paid  :false,
+            form: {
+                name: '',
+                artist: '',
+                paid: '',
+                amount: ''
+             
+            },
+getFinence1 : [],
   pick: ['Foo', 'Bar', 'Fizz', 'Buzz'],
    dialog: false,
       dialogDelete: false,
@@ -227,6 +241,7 @@ paid  :false,
         
       ],
       desserts: [],
+      posts: [],
       editedIndex: -1,
       editedItem: {
         name: '',
@@ -261,6 +276,7 @@ paid  :false,
 
     created () {
       this.initialize()
+      this.getFinence()
     },
 
     methods: {
@@ -339,7 +355,38 @@ paid  :false,
         ]
       },
 
+      onSubmit: function () {
+        let data1 = {
+          'name' : this.form.name,
+          'amount':this.form.amount,
+          'artist':this.form.artist,
+          'paid':this.form.paid
+        }
+       
+    
+      const baseURI = 'http://3.10.162.220:8000/insert_finance/'
+       this.$http.post(baseURI,data1,function (data1){
+        console.log(data1)
+       })
+    
+    },
+
+    getFinence: function (){
+      
+       const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
+         this.$http.get(baseURI).then(function(response){
+     if(response.status == "200"){
+      this.getFinence1 =response.data
+      
+      console.log(this.getFinence1)
+    
+      }
+         })
+    },
+
       editItem (item) {
+        console.log(item)
+        this.form.name = "3434"
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
