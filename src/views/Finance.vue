@@ -76,7 +76,7 @@
                 <v-text-field
                   label="Name*"
                   v-model="form.name"
-                  :value="form.name"
+                  :value="editedItem.name"
                   required
                 ></v-text-field>
               </v-col>
@@ -85,13 +85,15 @@
                 <v-text-field
                   label="Artist*"
                   v-model="form.artist"
+                   :value="editedItem.artist"
                   required
-                ></v-text-field>
+                ></v-text-field> 
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Amount*"
                   v-model="form.amount"
+                 :value="editedItem.amount"
                   required
                 ></v-text-field>
               </v-col>
@@ -99,6 +101,7 @@
                 cols="12">
                <v-checkbox
                   v-model="form.paid"
+                 :value="editedItem.paid"
                   label="Paid-checkbox"
                 ></v-checkbox>
               </v-col>
@@ -232,11 +235,9 @@ getFinence1 : [],
           value: 'name',
           glutenfree:false,
         },
-        { text: 'Artist', value: 'calories' },
-        { text: 'Amount', value: 'fat' },
-        { text: 'Partner', value: 'carbs' },
-        { text: 'Due date', value: 'protein' },
-        { text: 'status', value: 'actions', sortable: false },
+        { text: 'Artist', value: 'artist' },
+        { text: 'Amount', value: 'amount' },
+        { text: 'status', value: 'paid', sortable: false },
         { text: 'Action', value: 'status', sortable: false },
         
       ],
@@ -244,11 +245,10 @@ getFinence1 : [],
       posts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        artist: '',
+        amount: 0,
+        paid:'',
+        status: 0,
       },
       defaultItem: {
         name: '',
@@ -283,75 +283,14 @@ getFinence1 : [],
       initialize () {
         this.desserts = [
           {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
+            name: 'Test',
+            amount: 100,
+            paid: true,
+            artist: 'Artist1',
+            id: 1,
+          },   
+            
+      
         ]
       },
 
@@ -376,19 +315,18 @@ getFinence1 : [],
        const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
          this.$http.get(baseURI).then(function(response){
      if(response.status == "200"){
-      this.getFinence1 =response.data
-      
-      console.log(this.getFinence1)
-    
+      console.log(response.data)    
       }
          })
     },
 
       editItem (item) {
         console.log(item)
-        this.form.name = "3434"
+        this.editedItem.name = item.name
+        this.editedItem.amount = item.amount
+        this.editedItem.artist = item.artist
         this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
+       // this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
