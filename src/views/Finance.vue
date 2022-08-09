@@ -401,29 +401,24 @@ getFinence1 : [],
       },
 
       onSubmit: function () {
-        let data1 = {
-          'name' : this.form.name,
-          'amount':this.form.amount,
-          'artist':this.form.artist,
-          'paid':this.form.paid
-        }
-       
-    
-      const baseURI = 'http://3.10.162.220:8000/insert_finance/'
-       this.$http.post(baseURI,data1,function (data1){
+        console.log(this.form);
+        const baseURI = 'http://3.10.162.220:8000/insert_finance/'
+       this.$http.post(baseURI,this.form,function (data1){
         console.log(data1)
        })
     
     },
-
-    getFinence: function (){
-      
-       const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
-         this.$http.get(baseURI).then(function(response){
-     if(response.status == "200"){
-      console.log(response.data)    
-      }
-         })
+   async getFinence() {   
+      const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
+    await this.$http.get(baseURI).then(response => {
+      // JSON responses are automatically parsed.
+     // this.desserts = response.data
+      console.log(response.data )
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+     
     },
 
       editItem (item) {
