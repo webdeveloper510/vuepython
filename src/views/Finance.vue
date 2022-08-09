@@ -296,16 +296,20 @@ getFinence1 : [],
       },
 
       onSubmit: function () {
-        let data1 = {
-          'name' : this.form.name,
-          'amount':this.form.amount,
-          'artist':this.form.artist,
-          'paid':this.form.paid
-        }
-       
+        const formData = new FormData()
+        formData.append('name',this.form.name)
+        formData.append('amount',this.form.amount)
+        formData.append('artist',this.form.artist)
+         formData.append('paid',this.form.paid)
+        // let data1 = {
+        //   'name' : this.form.name,
+        //   'amount':this.form.amount,
+        //   'artist':this.form.artist,
+        //   'paid':this.form.paid
+        // }  
     
       const baseURI = 'http://3.10.162.220:8000/insert_finance/'
-       this.$http.post(baseURI,data1,function (data1){
+       this.$http.post(baseURI,formData,function (data1){
             console.log(data1)
        })
     
