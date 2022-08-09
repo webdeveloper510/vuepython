@@ -210,7 +210,7 @@ export default {
   },
 
   mounted () {
-
+    this.getFinence()
   },
 
 
@@ -241,7 +241,7 @@ getFinence1 : [],
         { text: 'Action', value: 'status', sortable: false },
         
       ],
-      desserts: [],
+      desserts:[],
       posts: [],
       editedIndex: -1,
       editedItem: {
@@ -250,6 +250,7 @@ getFinence1 : [],
         paid:'',
         status: 0,
       },
+      lists:'', 
       defaultItem: {
         name: '',
         calories: 0,
@@ -275,8 +276,8 @@ getFinence1 : [],
     },
 
     created () {
-      this.initialize()
-      this.getFinence()
+     // this.initialize()
+      //this.getFinence()
     },
 
     methods: {
@@ -305,19 +306,22 @@ getFinence1 : [],
     
       const baseURI = 'http://3.10.162.220:8000/insert_finance/'
        this.$http.post(baseURI,data1,function (data1){
-        console.log(data1)
+            console.log(data1)
        })
     
     },
 
-    getFinence: function (){
-      
-       const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
-    this.$http.get(baseURI).then(function(response){
-     if(response.status == "200"){
-          console.log(response.data)    
-      }
-         })
+    async getFinence() {   
+      const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
+    await this.$http.get(baseURI).then(response => {
+      // JSON responses are automatically parsed.
+      this.desserts = response.data
+      console.log(this.desserts)
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+     
     },
 
       editItem (item) {
