@@ -316,7 +316,7 @@ export default {
   },
 
   mounted () {
-
+    this.getFinence()
   },
 
 
@@ -347,7 +347,7 @@ getFinence1 : [],
         { text: 'Action', value: 'status', sortable: false },
         
       ],
-      desserts: [],
+      desserts:[],
       posts: [],
       editedIndex: -1,
       editedItem: {
@@ -356,6 +356,7 @@ getFinence1 : [],
         paid:'',
         status: 0,
       },
+      lists:'', 
       defaultItem: {
         name: '',
         calories: 0,
@@ -381,8 +382,8 @@ getFinence1 : [],
     },
 
     created () {
-      this.initialize()
-      this.getFinence()
+     // this.initialize()
+      //this.getFinence()
     },
 
     methods: {
@@ -401,19 +402,31 @@ getFinence1 : [],
       },
 
       onSubmit: function () {
-        console.log(this.form);
-        const baseURI = 'http://3.10.162.220:8000/insert_finance/'
-       this.$http.post(baseURI,this.form,function (data1){
-        console.log(data1)
+        const formData = new FormData()
+        formData.append('name',this.form.name)
+        formData.append('amount',this.form.amount)
+        formData.append('artist',this.form.artist)
+         formData.append('paid',this.form.paid)
+        // let data1 = {
+        //   'name' : this.form.name,
+        //   'amount':this.form.amount,
+        //   'artist':this.form.artist,
+        //   'paid':this.form.paid
+        // }  
+    
+      const baseURI = 'http://3.10.162.220:8000/insert_finance/'
+       this.$http.post(baseURI,formData,function (data1){
+            console.log(data1)
        })
     
     },
-   async getFinence() {   
+
+    async getFinence() {   
       const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
     await this.$http.get(baseURI).then(response => {
       // JSON responses are automatically parsed.
-     // this.desserts = response.data
-      console.log(response.data )
+      this.desserts = response.data
+      console.log(this.desserts)
     })
     .catch(e => {
       this.errors.push(e)
