@@ -1,420 +1,247 @@
 <template>
-  <v-container
-    fluid
-  >
+  <v-container fluid>
     <v-row>
       <v-col>
         <div class="d-flex justify-end date_menu_container">
         </div>
       </v-col>
     </v-row>
-    <v-row >
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-      <v-row>
-        <v-col cols="12"
-        md="3" v-on:click="dialog=true">
-        <panel cls="dark"  style="height:160px;" v-bind="attrs"
-           v-on="on"  >
-            <v-card-text>
-              <v-img src="@/assets/icons/tickets.svg" class="panel-icon d-block" contain max-height="40" max-width="40" width="40" height="40"></v-img>
+    <v-row>
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-row>
+            <v-col cols="12" md="3" v-on:click="dialog = true">
+              <panel cls="dark" style="height:160px;" v-bind="attrs" v-on="on">
+                <v-card-text>
+                  <v-img src="@/assets/icons/tickets.svg" class="panel-icon d-block" contain max-height="40"
+                    max-width="40" width="40" height="40"></v-img>
 
-              <div   class="panel-line">
-                Open Invoices
-              </div>
-              <div class="panel-number" style="font-weight:bold;">5</div>
-            </v-card-text>
-        </panel>
-        </v-col>
-        <v-col cols="12"
-        md="3">
-       <panel cls="dark" style="height:160px;">
-            <v-card-text>
-              <v-img src="@/assets/icons/earnings.svg" class="panel-icon d-block" contain max-height="40" max-width="40" width="40" height="40"></v-img>
+                  <div class="panel-line">
+                    Open Invoices
+                  </div>
+                  <div class="panel-number" style="font-weight:bold;">5</div>
+                </v-card-text>
+              </panel>
+            </v-col>
+            <v-col cols="12" md="3">
+              <panel cls="dark" style="height:160px;">
+                <v-card-text>
+                  <v-img src="@/assets/icons/earnings.svg" class="panel-icon d-block" contain max-height="40"
+                    max-width="40" width="40" height="40"></v-img>
 
-              <div class="panel-line">
-                 Overdue
-              </div>
-              <div class="panel-number" style="font-weight:bold;">&euro;3</div>
-            </v-card-text>
-        </panel>
-        </v-col>
-         <v-col cols="12"
-        md="3">
-     <panel cls="dark" style="height:160px;">
-            <v-card-text>
-              <v-img src="@/assets/icons/visitors.svg" class="panel-icon d-block" contain max-height="40" max-width="40" width="40" height="40"></v-img>
+                  <div class="panel-line">
+                    Overdue
+                  </div>
+                  <div class="panel-number" style="font-weight:bold;">&euro;3</div>
+                </v-card-text>
+              </panel>
+            </v-col>
+            <v-col cols="12" md="3">
+              <panel cls="dark" style="height:160px;">
+                <v-card-text>
+                  <v-img src="@/assets/icons/visitors.svg" class="panel-icon d-block" contain max-height="40"
+                    max-width="40" width="40" height="40"></v-img>
 
-              <div class="panel-line">
-                 To be paid 
-              </div>
-              <div class="panel-number" style="font-weight:bold;">2</div>
-            </v-card-text>
-        </panel>
-        </v-col>
-      </v-row>
-      </template>
-      <form @submit.prevent="onSubmit">
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Invoicen</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12">
-                <v-text-field
-                  label="Name*"
-                  v-model="form.name"
-                  required
-                ></v-text-field>
-              </v-col>
-            
-              <v-col cols="12">
-                <v-text-field
-                  label="Artist*"
-                  v-model="form.artist"
-                  required
-                ></v-text-field> 
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Amount*"
-                  v-model="form.amount"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12">
-               <v-checkbox
-                  v-model="form.paid"
-                  label="Paid-checkbox"
-                ></v-checkbox>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            type="submit"
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      </form>
-    </v-dialog>
-  </v-row>
-  <v-row>
-    <v-col cols="12"
-    md="3" >
-  <v-btn
-          style="height: 48px !important; width: 100%;"
-      depressed
-         class="mx-4"
-      color="primary"
-       large
-      v-model="Invoice"
-      @click="Invoice =true"
-    >
-      + New Invoice
-    </v-btn>
-    </v-col>
-     <v-col cols="12"
-    md="3" >
-  <v-select
-     class="mx-4"
-    style="height: 45px !important; width: 100%;"
-          :pick="pick"
-          label="Pick Artist"
-          outlined
-        ></v-select>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col cols="12" class="pa-4">
-        <v-data-table
-    :headers="headers"
-    :items="desserts"
-    sort-by="calories"
-    class="elevation-1"
-   
-  >
-   <template v-slot:item.actions="{ item }">
-        <v-simple-checkbox
-          v-model="item.actions"
-        ></v-simple-checkbox>
-      </template>
-    <template v-slot:item.status="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
-
-  </v-data-table>
-    </v-col>
-  </v-row>
-      <v-dialog v-model="dialogDelete" max-width="500px">
+                  <div class="panel-line">
+                    To be paid
+                  </div>
+                  <div class="panel-number" style="font-weight:bold;">2</div>
+                </v-card-text>
+              </panel>
+            </v-col>
+          </v-row>
+        </template>
+        <form @submit.prevent="onSubmit">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title>
+              <span class="text-h5">Invoicen</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field label="Name*" v-model="form.name" required></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-text-field label="Artist*" v-model="form.artist" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field label="Amount*" v-model="form.amount" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-checkbox v-model="form.paid" label="Paid-checkbox"></v-checkbox>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false">
+                Close
+              </v-btn>
+              <v-btn color="blue darken-1" text type="submit" @click="dialog = false">
+                Save
+              </v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>
-
-    <v-dialog
-          v-model="Invoice"
-          max-width="500px"
-        >
-      <form @submit.prevent="onInvoice">
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Invoicens</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12">
-                <v-text-field
-                  label="Invoice Name*"
-                  v-model="invoice.invoice_name"
-                  required
-                ></v-text-field>
-              </v-col>
-            
-              <v-select v-model="invoice.artistid"
-                :items="ArtistDetails"
-                item-text="ArtistName"
-                item-value="id"
-                label='Artists*'
-                filled
-                required>
-                 </v-select>
-                 <v-select v-model="invoice.partnerid"
-                :items="Partner"
-                item-text="PartnerName"
-                item-value="id"
-                label='Partner*'
-                filled
-                required>
-                 </v-select>
-              <v-col cols="12">
-                  <v-textarea
-                  v-model="invoice.description1"
-                   name="input-7-1"
-                  label="Description 1"
-        ></v-textarea>
-              </v-col>
-                 <v-col cols="12">
-                  <v-textarea
-                   v-model="invoice.description2"
-                  name="input-7-1"
-                  label="Description 2"
-        ></v-textarea>
-              </v-col>
-              <v-col cols="12">
-              <v-text-field
-               v-model="invoice.amount2"
-                hide-details
-                single-line
-              label="Amount 1"
-                type="number"
-              />              </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="invoice.amount1"
-                hide-details
-                label="Amount 2"
-                single-line
-                type="number"
-              />  </v-col>
-                <v-col
-                cols="12">
-                     <v-dialog
-        ref="dialog"
-        v-model="modal"
-        :return-value.sync="date"
-        persistent
-        width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="duedate"
-            label="Due Date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="duedate"
-          scrollable
-        >
-          <v-spacer></v-spacer>
-          <v-btn
-            text
-            color="primary"
-            @click="Invoice = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            text
-            color="primary"
-            @click="$refs.dialog.save(date)"
-          >
-            OK
-          </v-btn>
-        </v-date-picker>
+        </form>
       </v-dialog>
-               </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="edit = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            type="submit"
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      </form>
-        </v-dialog>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="3">
+        <v-btn style="height: 48px !important; width: 100%;margin-left: -8px;" depressed color="primary" large
+          v-model="Invoice" @click="Invoice = true">
+          + New Invoice
+        </v-btn>
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-select style="height: 45px !important; width: 100%;margin-left: -5px;" :pick="pick" label="Pick Artist"
+          outlined></v-select>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="pa-4">
+        <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+          <template v-slot:item.paid="{ item }">
+        <v-simple-checkbox :ripple="false" v-model="item.paid"></v-simple-checkbox>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon small @click="deleteItem(item)">
+              mdi-delete
+            </v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-btn color="primary" @click="initialize">
+              Reset
+            </v-btn>
+          </template>
 
-
-             <v-dialog
-          v-model="edit"
-          max-width="500px"
-        >
-      <form @submit.prevent="onEdit">
+        </v-data-table>
+      </v-col>
+    </v-row>
+    <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
-        <v-card-title>
-          <span class="text-h5">Invoicen</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12">
-                <v-text-field
-                  label="Name*"
-                  v-model="editedItem.name"
-                  :value="editedItem.name"
-                  required
-                ></v-text-field>
-              </v-col>
-            
-              <v-select v-model="artistid"
-                :items="ArtistDetails"
-                item-text="ArtistName"
-                item-value="id"
-                label='Artists*'
-                filled
-                required>
-                 </v-select>
-
-              <v-col cols="12">
-                <v-text-field
-                  label="Artist*"
-                 :value="this.editedItem.artist"
-                   v-model="this.editedItem.artist"
-          
-                  required
-                ></v-text-field> 
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Amount*"
-                v-model="editedItem.amount"
-                 :value="editedItem.amount"
-                
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12">
-               <v-checkbox
-                 v-model="editedItem.paid"
-                    :value="editedItem.paid"
-                  label="Paid-checkbox"
-                ></v-checkbox>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
+        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="edit = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            type="submit"
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="Invoice" max-width="500px">
+      <form @submit.prevent="onInvoice">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">Invoicens</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="Invoice Name*" v-model="invoice.invoice_name" required></v-text-field>
+               
+
+                <v-select v-model="invoice.artistid" :items="ArtistDetails" item-text="ArtistName" item-value="id"
+                  label='Artists*' filled required>
+                </v-select>
+                <v-select v-model="invoice.partnerid" :items="Partner" item-text="PartnerName" item-value="id"
+                  label='Partner*' filled required>
+                </v-select>
+               
+                  <v-textarea v-model="invoice.description1" name="input-7-1" label="Description 1" rows="2">
+                  </v-textarea>
+              
+                  <v-text-field v-model="invoice.amount2" label="Amount 1" type="number" />
+
+                  <v-textarea v-model="invoice.description2" name="input-7-1" label="Description 2" rows="2">
+                  </v-textarea>
+                
+                  <v-text-field v-model="invoice.amount1" label="Amount 2" type="number" />
+                
+                  <v-dialog ref="dialog" :return-value.sync="date" persistent width="290px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="invoice.duedate" label="Due Date" prepend-icon="mdi-calendar" readonly
+                        v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="invoice.duedate" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="Invoice = false">
+                        Cancel
+                      </v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date)">
+                        OK
+                      </v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="edit = false">
+              Close
+            </v-btn>
+            <v-btn color="blue darken-1" text type="submit" @click="dialog = false">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </form>
-        </v-dialog>
+    </v-dialog>
+
+
+    <v-dialog v-model="edit" max-width="500px">
+      <form @submit.prevent="onEdit">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">Invoicen</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="Name*" v-model="editedItem.name" :value="editedItem.name" required>
+                  </v-text-field>
+                </v-col>
+
+                <v-select v-model="invoice.artistid" :items="ArtistDetails" item-text="ArtistName" item-value="id"
+                  label='Artists*' filled required>
+                </v-select>
+
+                <v-col cols="12">
+                  <v-text-field label="Artist*" :value="this.editedItem.artist" v-model="this.editedItem.artist"
+                    required></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field label="Amount*" v-model="editedItem.amount" :value="editedItem.amount" required>
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-checkbox v-model="editedItem.paid" :value="editedItem.paid" label="Paid-checkbox"></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="edit = false">
+              Close
+            </v-btn>
+            <v-btn color="blue darken-1" text type="submit" @click="dialog = false">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </form>
+    </v-dialog>
   </v-container>
 
 </template>
@@ -427,258 +254,262 @@ import panel from "@/components/core/panel";
 export default {
   name: 'Finance',
   components: {
-     panel
+    panel
   },
 
-  mounted () {
+  mounted() {
 
   },
 
 
   data: () => ({
-paid  :false,
-            form: {
-                name: '',
-                artist: '',
-                paid: '',
-                amount: ''
-             
-            },
-getFinence1 : [],
-   invoice: {
-                artistid: '',
-                partnerid: '',
-                description1: '',
-                description2: '',
-                amount1: '',
-                amount2: '',
-                invoice_name:'',
-                duedate:''
-             
-            },
-ArtistDetails: [],
-Partner: [],
-id : '',
-edit : false,
-Invoice: false,
-  pick: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-   dialog: false,
-      dialogDelete: false,
-      headers: [
+    paid: false,
+    form: {
+      name: '',
+      artist: '',
+      paid: '',
+      amount: ''
+
+    },
+    date: '',
+    getFinence1: [],
+    invoice: {
+      artistid: '',
+      partnerid: '',
+      description1: '',
+      description2: '',
+      amount1: '',
+      amount2: '',
+      invoice_name: '',
+      duedate: ''
+
+    },
+    ArtistDetails: [],
+    Partner: [],
+    id: '',
+    edit: false,
+    Invoice: false,
+    pick: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      {
+        text: 'Name',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+        glutenfree: false,
+      },
+      { text: 'Artist', value: 'artist' },
+      { text: 'Amount', value: 'amount' },
+      { text: 'status', value: 'paid', sortable: false },
+      { text: 'Action', value: 'actions', sortable: false },
+
+    ],
+    desserts: [],
+    posts: [],
+    editedIndex: -1,
+    editedItem: {
+      artist: '',
+      amount: 0,
+      paid: '',
+      status: 0,
+      name: '',
+    },
+    defaultItem: {
+      name: '',
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0,
+    },
+  }),
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    },
+    dialogDelete(val) {
+      val || this.closeDelete()
+    },
+  },
+
+  created() {
+    this.initialize()
+    this.getFinence()
+    this.getArtist()
+  },
+
+  methods: {
+    initialize() {
+      this.desserts = [
         {
-          text: 'Name',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-          glutenfree:false,
+          name: 'Test',
+          amount: 100,
+          paid: true,
+          artist: 'Artist1',
+          id: 1,
         },
-        { text: 'Artist', value: 'artist' },
-        { text: 'Amount', value: 'amount' },
-        { text: 'status', value: 'paid', sortable: false },
-        { text: 'Action', value: 'status', sortable: false },
-        
-      ],
-      desserts: [],
-      posts: [],
-      editedIndex: -1,
-      editedItem: {
-        artist: '',
-        amount: 0,
-        paid:'',
-        status: 0,
-        name: '',
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-    }),
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
+
+      ]
     },
-
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
-      dialogDelete (val) {
-        val || this.closeDelete()
-      },
-    },
-
-    created () {
-      this.initialize()
-      this.getFinence()
-      this.getArtist()
-    },
-
-    methods: {
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Test',
-            amount: 100,
-            paid: true,
-            artist: 'Artist1',
-            id: 1,
-          },   
-            
-      
-        ]
-      },
-  async onSubmit() {  
-           console.log(this.form);
-          var fd = new FormData();
-          fd.append('amount',this.form.amount)
-          fd.append('artist',this.form.artist)
-          fd.append('name',this.form.name)
-          fd.append('paid',this.form.paid)
-          const baseURI = 'http://3.10.162.220:8000/insert_finance/'
-          await this.$http.post(baseURI,fd).then(response => {
-           this.dialog = false;
-            console.log(response.data )
-       })
-      .catch(e => {
-        this.errors.push(e)
+    async onSubmit() {
+      console.log(this.form);
+      var fd = new FormData();
+      fd.append('amount', this.form.amount)
+      fd.append('artist', this.form.artist)
+      fd.append('name', this.form.name)
+      fd.append('paid', this.form.paid)
+      const baseURI = 'http://3.10.162.220:8000/insert_finance/'
+      await this.$http.post(baseURI, fd).then(response => {
+        this.dialog = false;
+        this.getFinence();
+        console.log(response.data)
       })
-         
-    },
-async onInvoice() {  
-    var fd = new FormData();
-    fd.append('invoice_name',this.invoice.invoice_name)
-    fd.append('partnerid',this.invoice.partnerid)
-    fd.append('artistid',this.invoice.artistid)
-    fd.append('servicesname1',this.invoice.description1)
-    fd.append('servicesname2',this.invoice.description2)
-    fd.append('amount1',this.invoice.amount1)
-    fd.append('amount2',this.invoice.amount2)
-    fd.append('duedate',this.invoice.duedate)
-    const baseURI = 'http://3.10.162.220:8000/edit_invoice/'
-          await this.$http.post(baseURI,fd).then(response => {
-           this.Invoice = false;
-             console.log(response.data )
-            this.$toasted.show("Invoice Update Successfully!")
-          
-       })
-      .catch(e => {
-        this.errors.push(e)
-      })
-},
-    
+        .catch(e => {
+          this.errors.push(e)
+        })
 
-    async onEdit() {  
-           console.log(this.editedItem);
-          var fd = new FormData();
-          fd.append('amount',this.editedItem.amount)
-          fd.append('artist',this.editedItem.artist)
-          fd.append('name',this.editedItem.name)
-          fd.append('paid',this.editedItem.paid ? 'True' : 'False')
-          console.log(fd);
-          const baseURI = 'http://3.10.162.220:8000/edit_finance/'+this.editedItem.id
-          await this.$http.post(baseURI,fd).then(response => {
-           this.edit = false;
-            console.log(response.data )
-       })
-      .catch(e => {
-        this.errors.push(e)
+    },
+    async onInvoice() {
+      var fd = new FormData();
+      fd.append('invoice_name', this.invoice.invoice_name)
+      fd.append('partnerid', this.invoice.partnerid)
+      fd.append('artistid', this.invoice.artistid)
+      fd.append('servicesname1', this.invoice.description1)
+      fd.append('servicesname2', this.invoice.description2)
+      fd.append('amount1', this.invoice.amount1)
+      fd.append('amount2', this.invoice.amount2)
+      fd.append('duedate', this.invoice.duedate)
+      const baseURI = 'http://3.10.162.220:8000/edit_invoice/'
+      await this.$http.post(baseURI, fd).then(response => {
+        this.Invoice = false;
+        console.log(response.data)
+        this.$toasted.show("Invoice Update Successfully!")
+
       })
-         
+        .catch(e => {
+          this.errors.push(e)
+        })
     },
 
-    
-   async getFinence() {   
+
+    async onEdit() {
+      console.log(this.editedItem);
+      var fd = new FormData();
+      fd.append('amount', this.editedItem.amount)
+      fd.append('artist', this.editedItem.artist)
+      fd.append('name', this.editedItem.name)
+      fd.append('paid', this.editedItem.paid ? 'True' : 'False')
+      console.log(fd);
+      const baseURI = 'http://3.10.162.220:8000/edit_finance/' + this.editedItem.id
+      await this.$http.post(baseURI, fd).then(response => {
+        this.edit = false;
+        this.getFinence();
+        console.log(response.data)
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+
+    },
+
+
+    async getFinence() {
       const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
-    await this.$http.get(baseURI).then(response => {
-      // JSON responses are automatically parsed.
-      this.desserts = response.data
-      console.log(response.data )
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
-     
+      await this.$http.get(baseURI).then(response => {
+        // JSON responses are automatically parsed.
+        this.desserts = response.data
+        console.log(response.data)
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+
     },
 
-    async getArtist(){
-     const baseURI = 'http://3.10.162.220:8000/get_invoice_details/'
-    await this.$http.get(baseURI).then(response => {
-      // JSON responses are automatically parsed.
+    async getArtist() {
+      const baseURI = 'http://3.10.162.220:8000/get_invoice_details/'
+      await this.$http.get(baseURI).then(response => {
+        // JSON responses are automatically parsed.
 
-      this.ArtistDetails = response.data.artist
-      this.Partner = response.data.Partner
-      //console.log(response.data )
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
-   },
-      editItem (item) {
-        console.log(item)
-        this.editedItem.name = item.name
-        this.editedItem.amount = item.amount
-        this.editedItem.artist = item.artist
-        this.editedItem.paid = item.paid
-        this.editedIndex = this.desserts.indexOf(item)
-       this.editedItem = Object.assign({}, item)
-        this.edit = true
-      },
+        this.ArtistDetails = response.data.artist
+        this.Partner = response.data.Partner
+        //console.log(response.data )
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+    },
+    editItem(item) {
+      console.log(item)
+      this.editedItem.name = item.name
+      this.editedItem.amount = item.amount
+      this.editedItem.artist = item.artist
+      this.editedItem.paid = item.paid
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.edit = true
+    },
 
-      deleteItem (item) {
-        console.log(item)
-        this.id = item.id
-        // this.editedIndex = this.desserts.indexOf(item)
-        // this.editedItem = Object.assign({}, item)
-        this.dialogDelete = true
-      },
+    deleteItem(item) {
+      console.log(item)
+      this.id = item.id
+      // this.editedIndex = this.desserts.indexOf(item)
+      // this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
 
-      async deleteItemConfirm () {
-    this.desserts.splice(this.editedIndex, 1)
-        var fd = new FormData();
-      fd.append('id',this.id)
-    console.log(this.id)
-    const baseURI = 'http://3.10.162.220:8000/delete_finance/'
-    await this.$http.post(baseURI,fd).then(response => {
-      // JSON responses are automatically parsed.
-      this.desserts = response.data
+    async deleteItemConfirm() {
+      this.desserts.splice(this.editedIndex, 1)
+      var fd = new FormData();
+      fd.append('id', this.id)
+      console.log(this.id)
+      const baseURI = 'http://3.10.162.220:8000/delete_finance/'
+      await this.$http.post(baseURI, fd).then(response => {
+        // JSON responses are automatically parsed.
+        this.desserts = response.data
         this.closeDelete()
-      console.log(response.data )
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
-
-      },
-
-      close () {
-        this.edit = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
+        this.getFinence();
+        console.log(response.data)
+      })
+        .catch(e => {
+          this.errors.push(e)
         })
-      },
 
-      closeDelete () {
-        this.dialogDelete = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
-        }
-        this.close()
-      },
     },
+
+    close() {
+      this.edit = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete() {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.desserts[this.editedIndex], this.editedItem)
+    //   } else {
+    //     this.desserts.push(this.editedItem)
+    //   }
+    //   this.close()
+    // },
+  },
 }
 </script>
