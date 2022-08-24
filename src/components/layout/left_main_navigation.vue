@@ -61,7 +61,7 @@
         { icon: 'events', text: 'Finance tab', link: '/finance'},
         { icon: 'events', text: 'Events' ,link: '/events', isPanel: true},
         { icon: 'stats', text: 'Statistieken',link: '/stats'  },
-        { icon: 'multishop', text: 'Multi shop',link: '/multishop'  },
+        { icon: 'multishop', text: 'Multi shop',link: '/multishop'}
       ],
     }),
   }

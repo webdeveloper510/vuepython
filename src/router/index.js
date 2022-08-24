@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Finance from '../views/Finance.vue'
+import login from '../views/login.vue'
 
 Vue.use(VueRouter)
   const routes = [
@@ -14,6 +15,11 @@ Vue.use(VueRouter)
     path: '/finance',
     name: 'finance',
     component: Finance
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login
   }
 
 ]
