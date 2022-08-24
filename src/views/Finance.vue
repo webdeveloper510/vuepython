@@ -110,14 +110,25 @@
             <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
             </v-icon>
+                   
             <v-icon small @click="deleteItem(item)">
               mdi-delete
             </v-icon>
+              <v-btn 
+            class="ma-2" 
+            outlined 
+            href="http://3.10.162.220:8000/get_pdf_path/"
+            download>
+            Download PDF
+    </v-btn>
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">
               Reset
             </v-btn>
+
+        
+
           </template>
 
         </v-data-table>
@@ -304,6 +315,7 @@ export default {
       { text: 'Amount', value: 'amount' },
       { text: 'status', value: 'paid', sortable: false },
       { text: 'Action', value: 'actions', sortable: false },
+       { text: 'Download', value: 'download', sortable: false }
 
     ],
     desserts: [],
