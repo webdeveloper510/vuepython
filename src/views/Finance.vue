@@ -280,7 +280,6 @@ export default {
       artist: '',
       paid: '',
       amount: ''
-
     },
     date: '',
     getFinence1: [],

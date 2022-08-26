@@ -9,10 +9,11 @@
         max-width="400"
         persistent
     >
-      <v-card>
-        <v-card-title class="headline">
-          Login
-        </v-card-title>
+      <form @submit.prevent="login">
+        <v-card>
+            <v-card-title class="headline">
+              Login
+            </v-card-title>
 
         <v-card-text>
           <v-text-field label="Username" v-model="account.username"></v-text-field>
@@ -29,6 +30,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+          </form>
     </v-dialog>
 
   </v-container>
@@ -46,17 +48,21 @@ export default {
 
   },
   methods:{
-    login(){
-      // console.log(this.$cookies.get('csrftoken'))
-      this.$store.dispatch('account/login', this.account)
-      .then((response) => {
-        localStorage.t = response.data.token;
-
-        this.$store.cache.dispatch('account/load')
-        this.$router.push({'name': 'home'})
+    async login() {
+      var fd = new FormData();
+      fd.append('username', this.account.username)
+      fd.append('password', this.account.password)
+      const baseURI = 'http://3.10.162.220:8000/api-token-auth/'// Here is login Api
+      await this.$http.post(baseURI, fd).then(response => {
+        console.log(response)
+           localStorage.setItem('user',response.data.token)
+           this.$router.push('/') 
       })
-      .finally(() => this.loading = false)
-    }
+        .catch(e => {
+          this.errors.push(e)
+        })
+
+    },
   },
   data: () => ({
     dialog: true,
