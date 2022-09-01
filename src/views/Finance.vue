@@ -234,7 +234,7 @@
                   </v-textarea>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field label="Amount1*" :value="this.editedItem.amount1" v-model="this.editedItem.amount1"
+                  <v-text-field label="Amount1*" v-model="editedItem.amount1"
                     required></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -243,7 +243,7 @@
                 </v-col>
 
                    <v-col cols="12">
-                    <v-text-field label="Amount2*" :value="this.editedItem.amount2" v-model="this.editedItem.amount2"
+                    <v-text-field label="Amount2*"  v-model="editedItem.amount2"
                     required></v-text-field>
                   </v-col>
                 
