@@ -196,7 +196,7 @@
                     </v-date-picker>
                   </v-dialog>
                   
-                    <v-checkbox v-model="form.paid" class="m-0 p-0" label="Paid-checkbox"></v-checkbox>
+                    <v-checkbox v-model="invoice.paid" class="m-0 p-0" label="Paid-checkbox"></v-checkbox>
                 
                 </v-col>
               </v-row>
@@ -303,7 +303,8 @@ export default {
       amount1: '',
       amount2: '',
       invoice_name: '',
-      duedate: ''
+      duedate: '',
+      paid:false
 
     },
     ArtistDetails: [],
@@ -414,7 +415,8 @@ export default {
       fd.append('amount1', this.invoice.amount1)
       fd.append('amount2', this.invoice.amount2)
       fd.append('duedate', this.invoice.duedate)
-      const baseURI = 'http://3.10.162.220:8000/edit_invoice/'
+      fd.append('paid', this.invoice.duedate)
+      const baseURI = 'http://3.10.162.220:8000/insert_invoice/'
       await this.$http.post(baseURI, fd).then(response => {
         this.Invoice = false;
         console.log(response.data)
@@ -430,12 +432,13 @@ export default {
     async onEdit() {
       console.log(this.editedItem);
       var fd = new FormData();
-      fd.append('amount', this.editedItem.amount)
-      fd.append('artist', this.editedItem.artist)
-      fd.append('name', this.editedItem.name)
-      fd.append('paid', this.editedItem.paid ? 'True' : 'False')
+      fd.append('amount1', this.editedItem.amount1)
+      fd.append('amount2', this.editedItem.amount1)
+      fd.append('servicesname1', this.editedItem.service1)
+      fd.append('servicesname2', this.editedItem.service2)
+      fd.append('paid', this.editedItem.status ? 'True' : 'False')
       console.log(fd);
-      const baseURI = 'http://3.10.162.220:8000/edit_finance/' + this.editedItem.id
+      const baseURI = 'http://3.10.162.220:8000/edit_invoice/' + this.editedItem.id
       await this.$http.post(baseURI, fd).then(response => {
         this.edit = false;
         this.getFinence();
