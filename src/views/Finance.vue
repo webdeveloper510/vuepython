@@ -507,14 +507,16 @@ export default {
       this.desserts.splice(this.editedIndex, 1)
       var fd = new FormData();
       fd.append('id', this.id)
+      console.log('yes');
       console.log(this.id)
-      const baseURI = 'http://3.10.162.220:8000/delete_invoice/'
+      const baseURI = 'http://3.10.162.220:8000/delete_invoice/' 
       await this.$http.post(baseURI, fd).then(response => {
         // JSON responses are automatically parsed.
+        console.log(response)
         this.desserts = response.data
         this.closeDelete()
         this.getFinence();
-        console.log(response.data)
+     
       })
         .catch(e => {
           this.errors.push(e)
