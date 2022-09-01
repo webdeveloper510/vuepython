@@ -406,10 +406,11 @@ export default {
 
     },
     async onInvoice() {
+      console.log(this.invoice);
       var fd = new FormData();
       fd.append('invoice_name', this.invoice.invoice_name)
-      fd.append('partnerid', this.invoice.partnerid)
-      fd.append('artistid', this.invoice.artistid)
+      fd.append('partnername', this.invoice.partnerid)
+      fd.append('artistname', this.invoice.artistid)
       fd.append('servicesname1', this.invoice.description1)
       fd.append('servicesname2', this.invoice.description2)
       fd.append('amount1', this.invoice.amount1)
@@ -420,6 +421,8 @@ export default {
       await this.$http.post(baseURI, fd).then(response => {
         this.Invoice = false;
         console.log(response.data)
+
+        this.getFinence();
         this.$toasted.show("Invoice Update Successfully!")
 
       })
@@ -505,7 +508,7 @@ export default {
       var fd = new FormData();
       fd.append('id', this.id)
       console.log(this.id)
-      const baseURI = 'http://3.10.162.220:8000/delete_finance/'
+      const baseURI = 'http://3.10.162.220:8000/delete_invoice/'
       await this.$http.post(baseURI, fd).then(response => {
         // JSON responses are automatically parsed.
         this.desserts = response.data
