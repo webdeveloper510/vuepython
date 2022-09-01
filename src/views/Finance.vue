@@ -10,7 +10,7 @@
       <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <v-row>
-            <v-col cols="12" md="3" v-on:click="dialog = true">
+            <v-col cols="12" md="3" >
               <panel cls="dark" style="height:160px;" v-bind="attrs" v-on="on">
                 <v-card-text>
                   <v-img src="@/assets/icons/tickets.svg" class="panel-icon d-block" contain max-height="40"
@@ -19,7 +19,7 @@
                   <div class="panel-line">
                     Open Invoices
                   </div>
-                  <div class="panel-number" style="font-weight:bold;">5</div>
+                  <div class="panel-number" style="font-weight:bold;">{{count}}</div>
                 </v-card-text>
               </panel>
             </v-col>
@@ -58,6 +58,7 @@
             </v-card-title>
             <v-card-text>
               <v-container>
+                
                 <v-row>
                   <v-col cols="12">
                     <v-text-field label="Name*" v-model="form.name" required></v-text-field>
@@ -103,18 +104,21 @@
     <v-row>
       <v-col cols="12" class="pa-4">
         <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
-          <template v-slot:item.paid="{ item }">
-        <v-simple-checkbox :ripple="false" v-model="item.paid"></v-simple-checkbox>
-          </template>
+            <template v-slot:item.paid="{ item }">
+          <v-simple-checkbox :ripple="false" v-model="item.paid"></v-simple-checkbox>
+            </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">
-              mdi-pencil
-            </v-icon>
+              <v-icon small class="mr-2" @click="editItem(item)">
+                mdi-pencil
+              </v-icon>
                    
             <v-icon small @click="deleteItem(item)">
               mdi-delete
             </v-icon>
-              <v-btn 
+              
+          </template>
+          <template v-slot:item.download>
+            <v-btn 
             class="ma-2" 
             outlined 
             href="http://3.10.162.220:8000/get_pdf_path/"
@@ -183,7 +187,7 @@
                     </template>
                     <v-date-picker v-model="invoice.duedate" scrollable>
                       <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="Invoice = false">
+                      <v-btn text color="primary" @click="invoice.duedate = false">
                         Cancel
                       </v-btn>
                       <v-btn text color="primary" @click="$refs.dialog.save(date)">
@@ -191,13 +195,16 @@
                       </v-btn>
                     </v-date-picker>
                   </v-dialog>
+                  
+                    <v-checkbox v-model="form.paid" class="m-0 p-0" label="Paid-checkbox"></v-checkbox>
+                
                 </v-col>
               </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="edit = false">
+            <v-btn color="blue darken-1" text @click="Invoice = false">
               Close
             </v-btn>
             <v-btn color="blue darken-1" text type="submit" @click="dialog = false">
@@ -219,22 +226,27 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field label="Name*" v-model="editedItem.name" :value="editedItem.name" required>
+                  <v-text-field label="Name*" v-model="editedItem.Name" :value="editedItem.name" required>
                   </v-text-field>
                 </v-col>
-
-                <v-select v-model="invoice.artistid" :items="ArtistDetails" item-text="ArtistName" item-value="id"
-                  label='Artists*' filled required>
-                </v-select>
-
                 <v-col cols="12">
-                  <v-text-field label="Artist*" :value="this.editedItem.artist" v-model="this.editedItem.artist"
+                  <v-textarea v-model="editedItem.service1" name="input-7-1" label="Service 1" rows="2">
+                  </v-textarea>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field label="Amount1*" :value="this.editedItem.amount1" v-model="this.editedItem.amount1"
                     required></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field label="Amount*" v-model="editedItem.amount" :value="editedItem.amount" required>
-                  </v-text-field>
+                  <v-textarea v-model="editedItem.service2" name="input-7-1" label="Service 2" rows="2">
+                  </v-textarea>
                 </v-col>
+
+                   <v-col cols="12">
+                    <v-text-field label="Amount2*" :value="this.editedItem.amount2" v-model="this.editedItem.amount2"
+                    required></v-text-field>
+                  </v-col>
+                
                 <v-col cols="12">
                   <v-checkbox v-model="editedItem.paid" :value="editedItem.paid" label="Paid-checkbox"></v-checkbox>
                 </v-col>
@@ -307,17 +319,20 @@ export default {
         text: 'Name',
         align: 'start',
         sortable: false,
-        value: 'name',
+        value: 'Name',
         glutenfree: false,
       },
       { text: 'Artist', value: 'artist' },
+      { text: 'Partner', value: 'partnername' },
       { text: 'Amount', value: 'amount' },
-      { text: 'status', value: 'paid', sortable: false },
+      { text: 'date', value: 'duedate' },
+      { text: 'Status', value: 'paid', sortable: false },
       { text: 'Action', value: 'actions', sortable: false },
        { text: 'Download', value: 'download', sortable: false }
 
     ],
     desserts: [],
+    count: '',
     posts: [],
     editedIndex: -1,
     editedItem: {
@@ -361,8 +376,8 @@ export default {
     initialize() {
       this.desserts = [
         {
-          name: 'Test',
-          amount: 100,
+          name: 'Test1',
+          amount: 1001,
           paid: true,
           artist: 'Artist1',
           id: 1,
@@ -434,11 +449,13 @@ export default {
 
 
     async getFinence() {
-      const baseURI = 'http://3.10.162.220:8000/get_finance_details/'
+      const baseURI = 'http://3.10.162.220:8000/insert_invoice/'
       await this.$http.get(baseURI).then(response => {
         // JSON responses are automatically parsed.
-        this.desserts = response.data
-        console.log(response.data)
+        console.log(response)
+        this.desserts = response.data.Invoice_list
+        this.count = response.data.invoice_count
+     
       })
         .catch(e => {
           this.errors.push(e)
@@ -461,9 +478,11 @@ export default {
     },
     editItem(item) {
       console.log(item)
-      this.editedItem.name = item.name
-      this.editedItem.amount = item.amount
-      this.editedItem.artist = item.artist
+      this.editedItem.Name = item.Name
+      this.editedItem.amount1 = item.amount1
+      this.editedItem.amount2 = item.amount2
+      this.editedItem.service2 = item.service2
+      this.editedItem.service1 = item.service1
       this.editedItem.paid = item.paid
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)

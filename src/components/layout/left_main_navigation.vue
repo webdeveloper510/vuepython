@@ -11,8 +11,8 @@
 
       :mini-variant="$store.state.layout.navopen"
     >
-      <v-img src="@/assets/logo_yt.svg" width="42" height="28" v-show="$store.state.layout.navopen" style="margin:0 auto;margin-top:20px"></v-img>
-      <v-img src="@/assets/logo_yourtickets.svg" width="148" v-show="!$store.state.layout.navopen" style="margin:0 auto;margin-top:20px"></v-img>
+      <v-img src="@/assets/logo.png" width="42" height="28" v-show="$store.state.layout.navopen" style="margin:0 auto;margin-top:20px"></v-img>
+      <v-img src="@/assets/logo.png" width="148" v-show="!$store.state.layout.navopen" style="margin:0 auto;margin-top:20px"></v-img>
       <v-list dense style="margin-top:94px;">
         <template v-for="item in items">
 

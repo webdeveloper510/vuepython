@@ -37,6 +37,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
+.v-input--selection-controls {
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+}
+.v-text-field {
+    padding-top: 0px  !important;
+    margin-top: 0px !important;
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+    margin: 0px !important;
+}
+.v-text-field__details {
+    min-height: 5px !important;
+}
 //#inspire{
 //    background-color:blue;
 //}
