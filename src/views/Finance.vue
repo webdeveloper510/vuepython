@@ -173,12 +173,12 @@
                   <v-textarea v-model="invoice.description1" name="input-7-1" label="Description 1" rows="2">
                   </v-textarea>
               
-                  <v-text-field v-model="invoice.amount2" label="Amount 1" type="number" />
+                  <v-text-field v-model="invoice.amount1" label="Amount 1" type="number" />
 
                   <v-textarea v-model="invoice.description2" name="input-7-1" label="Description 2" rows="2">
                   </v-textarea>
                 
-                  <v-text-field v-model="invoice.amount1" label="Amount 2" type="number" />
+                  <v-text-field v-model="invoice.amount2" label="Amount 2" type="number" />
                 
                   <v-dialog ref="dialog" :return-value.sync="date" persistent width="290px">
                     <template v-slot:activator="{ on, attrs }">
@@ -196,8 +196,6 @@
                     </v-date-picker>
                   </v-dialog>
                   
-                    <v-checkbox v-model="invoice.paid" class="m-0 p-0" label="Paid-checkbox"></v-checkbox>
-                
                 </v-col>
               </v-row>
             </v-container>
@@ -436,7 +434,7 @@ export default {
       console.log(this.editedItem);
       var fd = new FormData();
       fd.append('amount1', this.editedItem.amount1)
-      fd.append('amount2', this.editedItem.amount1)
+      fd.append('amount2', this.editedItem.amount2)
       fd.append('servicesname1', this.editedItem.service1)
       fd.append('servicesname2', this.editedItem.service2)
       fd.append('paid', this.editedItem.status ? 'True' : 'False')
