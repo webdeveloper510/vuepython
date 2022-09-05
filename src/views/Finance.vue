@@ -32,7 +32,7 @@
                   <div class="panel-line">
                     Overdue
                   </div>
-                  <div class="panel-number" style="font-weight:bold;">&euro;3</div>
+                  <div class="panel-number" style="font-weight:bold;">&euro;{{Overdue}}</div>
                 </v-card-text>
               </panel>
             </v-col>
@@ -104,8 +104,8 @@
     <v-row>
       <v-col cols="12" class="pa-4">
         <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
-            <template v-slot:item.paid="{ item }">
-          <v-simple-checkbox :ripple="false" v-model="item.paid"></v-simple-checkbox>
+            <template v-slot:item.status="{ item }">
+          <v-simple-checkbox :ripple="true" v-model="item.status"></v-simple-checkbox>
             </template>
           <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click="editItem(item)">
@@ -239,7 +239,7 @@
                   </v-col>
                 
                 <v-col cols="12">
-                  <v-checkbox v-model="editedItem.paid" :value="editedItem.paid" label="Paid-checkbox"></v-checkbox>
+                  <v-checkbox v-model="editedItem.status" :value="editedItem.status" label="Paid-checkbox"></v-checkbox>
                 </v-col>
               </v-row>
             </v-container>
@@ -309,23 +309,24 @@ export default {
     headers: [
       {
         text: 'Name',
-        align: 'start',
+        align: 'center',
         sortable: false,
         value: 'Name',
         glutenfree: false,
       },
-      { text: 'Artist', value: 'artist' },
-      { text: 'Partner', value: 'partnername' },
-      { text: 'Amount', value: 'amount' },
-      { text: 'date', value: 'duedate' },
-      { text: 'Status', value: 'paid', sortable: false },
-      { text: 'Action', value: 'actions', sortable: false },
-       { text: 'Download', value: 'download', sortable: false }
+      { text: 'Artist', align: 'center', value: 'artist' },
+      { text: 'Partner', align: 'center', value: 'partnername' },
+      { text: 'Amount', align: 'center', value: 'amount' },
+      { text: 'Date', align: 'center', value: 'duedate' },
+      { text: 'Status', align: 'center', value: 'status', sortable: false },
+      { text: 'Action', align: 'center', value: 'actions', sortable: false },
+       { text: 'Download', align: 'center', value: 'download', sortable: false }
 
     ],
     desserts: [],
     count: '',
     posts: [],
+    Overdue:'',
     editedIndex: -1,
     editedItem: {
       artist: '',
@@ -362,6 +363,7 @@ export default {
     this.initialize()
     this.getFinence()
     this.getArtist()
+    this.getOverdue()
   },
 
   methods: {
@@ -459,6 +461,19 @@ export default {
         })
 
     },
+    async getOverdue() {
+      const baseURI = 'http://3.10.162.220:8000/show_overdue_amount/'
+      await this.$http.get(baseURI).then(response => {
+        // JSON responses are automatically parsed.
+        this.Overdue = response.data.overdue_amount
+
+     
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+
+    },
 
     async getArtist() {
       const baseURI = 'http://3.10.162.220:8000/get_invoice_details/'
@@ -480,7 +495,7 @@ export default {
       this.editedItem.amount2 = item.amount2
       this.editedItem.service2 = item.service2
       this.editedItem.service1 = item.service1
-      this.editedItem.paid = item.paid
+      this.editedItem.status = item.status
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.edit = true
