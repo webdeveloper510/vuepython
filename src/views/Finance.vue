@@ -32,7 +32,7 @@
                   <div class="panel-line">
                     Overdue
                   </div>
-                  <div class="panel-number" style="font-weight:bold;">&euro;{{Overdue}}</div>
+                  <div class="panel-number" style="font-weight:bold;">{{Overdue}}</div>
                 </v-card-text>
               </panel>
             </v-col>
