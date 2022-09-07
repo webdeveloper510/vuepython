@@ -45,7 +45,7 @@
                   <div class="panel-line">
                     To be paid
                   </div>
-                  <div class="panel-number" style="font-weight:bold;">2</div>
+                  <div class="panel-number" style="font-weight:bold;">&euro;{{amount_paid}}</div>
                 </v-card-text>
               </panel>
             </v-col>
@@ -117,11 +117,11 @@
             </v-icon>
               
           </template>
-          <template v-slot:item.download>
+          <template v-slot:item.download="{item}">
             <v-btn 
-            class="ma-2" 
+            class="ma-2"
             outlined 
-            href="http://3.10.162.220:8000/get_pdf_path/"
+            :href="`${link}${item.id}`"
             download>
             Download PDF
     </v-btn>
@@ -284,6 +284,7 @@ export default {
       paid: '',
       amount: ''
     },
+    amount_paid:'',
     date: '',
     getFinence1: [],
     invoice: {
@@ -298,6 +299,7 @@ export default {
       paid:false
 
     },
+    link:"http://3.10.162.220:8000/get_pdf_path/",
     ArtistDetails: [],
     Partner: [],
     id: '',
@@ -321,6 +323,7 @@ export default {
       { text: 'Status', align: 'center', value: 'status', sortable: false },
       { text: 'Action', align: 'center', value: 'actions', sortable: false },
        { text: 'Download', align: 'center', value: 'download', sortable: false }
+       
 
     ],
     desserts: [],
@@ -364,6 +367,7 @@ export default {
     this.getFinence()
     this.getArtist()
     this.getOverdue()
+    this.amount_to_paid()
   },
 
   methods: {
@@ -399,7 +403,7 @@ export default {
 
     },
     async onInvoice() {
-      console.log(this.invoice);
+      console.log(this.invoice.amount2) 
       var fd = new FormData();
       fd.append('invoice_name', this.invoice.invoice_name)
       fd.append('partnername', this.invoice.partnerid)
@@ -407,7 +411,7 @@ export default {
       fd.append('servicesname1', this.invoice.description1)
       fd.append('servicesname2', this.invoice.description2)
       fd.append('amount1', this.invoice.amount1)
-      fd.append('amount2', this.invoice.amount2)
+      fd.append('amount2', this.invoice.amount2 ? this.invoice.amount2:'00')
       fd.append('duedate', this.invoice.duedate)
       fd.append('paid', this.invoice.duedate)
       const baseURI = 'http://3.10.162.220:8000/insert_invoice/'
@@ -461,6 +465,17 @@ export default {
         })
 
     },
+    async amount_to_paid() {
+      const baseURI = 'http://3.10.162.220:8000/amount_to_be_paid/'
+      await this.$http.get(baseURI).then(response => {
+        // JSON responses are automatically parsed.
+        console.log(response)
+           this.amount_paid = response.data.to_be_paid_dict
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+    },  
     async getOverdue() {
       const baseURI = 'http://3.10.162.220:8000/show_overdue_amount/'
       await this.$http.get(baseURI).then(response => {
@@ -489,7 +504,7 @@ export default {
         })
     },
     editItem(item) {
-      console.log(item)
+      console.log('hertererr'+item)
       this.editedItem.Name = item.Name
       this.editedItem.amount1 = item.amount1
       this.editedItem.amount2 = item.amount2
