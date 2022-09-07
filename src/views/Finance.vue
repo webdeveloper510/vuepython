@@ -403,7 +403,7 @@ export default {
 
     },
     async onInvoice() {
-      console.log(this.invoice.amount2) 
+      console.log(this.invoice.paid) 
       var fd = new FormData();
       fd.append('invoice_name', this.invoice.invoice_name)
       fd.append('partnername', this.invoice.partnerid)
@@ -413,7 +413,7 @@ export default {
       fd.append('amount1', this.invoice.amount1)
       fd.append('amount2', this.invoice.amount2 ? this.invoice.amount2:'00')
       fd.append('duedate', this.invoice.duedate)
-      fd.append('paid', this.invoice.duedate)
+      fd.append('paid', this.invoice.paid)
       const baseURI = 'http://3.10.162.220:8000/insert_invoice/'
       await this.$http.post(baseURI, fd).then(response => {
         this.Invoice = false;
