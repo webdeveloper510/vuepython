@@ -23,7 +23,7 @@ Vue.filter('formatDate', function(value) {
       return moment(String(value)).format('DD-MM-YYYY')
   }
 });
-// global components
+
 Vue.component()
 
 new Vue({

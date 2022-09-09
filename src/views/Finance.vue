@@ -243,7 +243,7 @@
                   <v-col cols="12">
                     <v-dialog ref="dialog" :return-value.sync="date" persistent width="290px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-text-field v-model="editedItem.duedate" label="Due Date" prepend-icon="mdi-calendar" readonly
+                      <v-text-field v-model="editedItem.duedate"  label="Due Date" prepend-icon="mdi-calendar" readonly
                         v-bind="attrs" v-on="on"></v-text-field>
                     </template>
                     <v-date-picker v-model="editedItem.duedate" scrollable>
@@ -528,13 +528,16 @@ export default {
           this.errors.push(e)
         })
     },
+    
     editItem(item) {
-         console.log('hertererr'+item)
+         console.log(item)
+
         this.editedItem.Name = item.Name
         this.editedItem.amount1 = item.amount1
         this.editedItem.amount2 = item.amount2
         this.editedItem.service2 = item.service2
         this.editedItem.service1 = item.service1
+        this.editedItem.duedate = item.duedate
         this.editedItem.status = item.status
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
