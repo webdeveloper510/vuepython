@@ -388,6 +388,7 @@ export default {
     this.getArtist()
     this.getOverdue()
     this.amount_to_paid()
+    
   },
 
   methods: {
@@ -464,6 +465,8 @@ export default {
       await this.$http.post(baseURI, fd).then(response => {
         this.edit = false;
         this.getFinence();
+        this.amount_to_paid()
+        this.getOverdue()
         console.log(response.data)
       })
         .catch(e => {
@@ -548,6 +551,8 @@ export default {
       await this.$http.post(baseURI,fd).then(response => {       
         console.log(response )
         this.getFinence();
+        this.amount_to_paid()
+        this.getOverdue()
       })
         .catch(e => {
           this.errors.push(e)
