@@ -20,7 +20,7 @@ Vue.use(Toasted, {
 
 Vue.filter('formatDate', function(value) {
   if (value) {
-      return moment(String(value)).format('DD/MM/YYYY')
+      return moment(String(value)).format('DD-MM-YYYY')
   }
 });
 // global components
