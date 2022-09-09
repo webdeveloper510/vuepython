@@ -105,7 +105,9 @@
       <v-col cols="12" class="pa-4">
         <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
             <template v-slot:item.status="{ item }">
-          <v-simple-checkbox :ripple="true" v-model="item.status"></v-simple-checkbox>
+          <!-- <v-simple-checkbox :ripple="false" v-model="item.status" @click="check($event)"></v-simple-checkbox> 
+          -->
+          <input type="checkbox" v-model="item.status" @change="check($event,item.id)"/>
             </template>
           <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click="editItem(item)">
@@ -504,16 +506,34 @@ export default {
         })
     },
     editItem(item) {
-      console.log('hertererr'+item)
-      this.editedItem.Name = item.Name
-      this.editedItem.amount1 = item.amount1
-      this.editedItem.amount2 = item.amount2
-      this.editedItem.service2 = item.service2
-      this.editedItem.service1 = item.service1
-      this.editedItem.status = item.status
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.edit = true
+         console.log('hertererr'+item)
+        this.editedItem.Name = item.Name
+        this.editedItem.amount1 = item.amount1
+        this.editedItem.amount2 = item.amount2
+        this.editedItem.service2 = item.service2
+        this.editedItem.service1 = item.service1
+        this.editedItem.status = item.status
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.edit = true
+    },
+
+    async check(e,id) {   
+      console.log(id)   
+     // e.target.checked ? True : False;
+      var fd = new FormData();
+        fd.append('status',e.target.checked ? 'True' : 'False')
+        fd.append('id',id)
+      const baseURI = 'http://3.10.162.220:8000/update_status/'
+      await this.$http.post(baseURI,fd).then(response => {       
+        console.log(response )
+        this.getFinence();
+      })
+        .catch(e => {
+          this.errors.push(e)
+        })
+        
+      
     },
 
     deleteItem(item) {
@@ -524,24 +544,22 @@ export default {
       this.dialogDelete = true
     },
 
-    async deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1)
-      var fd = new FormData();
-      fd.append('id', this.id)
-      console.log('yes');
-      console.log(this.id)
-      const baseURI = 'http://3.10.162.220:8000/delete_invoice/' 
-      await this.$http.post(baseURI, fd).then(response => {
-        // JSON responses are automatically parsed.
-        console.log(response)
-        this.desserts = response.data
-        this.closeDelete()
-        this.getFinence();
-     
-      })
-        .catch(e => {
-          this.errors.push(e)
+  async deleteItemConfirm() {
+        this.desserts.splice(this.editedIndex, 1)
+        var fd = new FormData();
+        fd.append('id', this.id)
+        console.log(this.id)
+        const baseURI = 'http://3.10.162.220:8000/delete_invoice/' 
+        await this.$http.post(baseURI, fd).then(response => {
+          console.log(response)
+          this.desserts = response.data
+          this.closeDelete()
+          this.getFinence();
+      
         })
+          .catch(e => {
+            this.errors.push(e)
+          })
 
     },
 
