@@ -7,6 +7,7 @@ import store from '@/store'
 import VueCookies from 'vue-cookies';
 import "@mdi/font/css/materialdesignicons.css";
 import Toasted from 'vue-toasted';
+import moment from 'moment';
 
 Vue.prototype.$http = axios;
 Vue.config.productionTip = false
@@ -16,6 +17,12 @@ Vue.use(Toasted, {
   position: 'top-right',
   theme: 'outline',
 })
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+      return moment(String(value)).format('MM/DD/YYYY')
+  }
+});
 // global components
 Vue.component()
 

@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Finance from '../views/Finance.vue'
 import login from '../views/login.vue'
 
+
 Vue.use(VueRouter)
   const routes = [
   {

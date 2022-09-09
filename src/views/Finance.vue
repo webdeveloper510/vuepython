@@ -106,18 +106,19 @@
         <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
             <template v-slot:item.status="{ item }">
           <!-- <v-simple-checkbox :ripple="false" v-model="item.status" @click="check($event)"></v-simple-checkbox> 
-          -->
+          -->         
           <input type="checkbox" v-model="item.status" @change="check($event,item.id)"/>
             </template>
+            <template v-slot:item.duedate="{ item }">
+                {{item.duedate|formatDate}}
+             </template>
           <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click="editItem(item)">
                 mdi-pencil
               </v-icon>
-                   
             <v-icon small @click="deleteItem(item)">
               mdi-delete
             </v-icon>
-              
           </template>
           <template v-slot:item.download="{item}">
             <v-btn 
@@ -338,7 +339,7 @@ export default {
       { text: 'Artist', align: 'center', value: 'artist' },
       { text: 'Partner', align: 'center', value: 'partnername' },
       { text: 'Amount', align: 'center', value: 'amount' },
-      { text: 'Date', align: 'center', value: 'duedate' },
+      { text: 'Date', align: 'center', value: 'duedate'},
       { text: 'Status', align: 'center', value: 'status', sortable: false },
       { text: 'Action', align: 'center', value: 'actions', sortable: false },
        { text: 'Download', align: 'center', value: 'download', sortable: false }
@@ -421,6 +422,7 @@ export default {
         })
 
     },
+    
     async onInvoice() {
       console.log(this.invoice.paid) 
       var fd = new FormData();
