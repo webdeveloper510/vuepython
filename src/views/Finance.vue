@@ -239,6 +239,23 @@
                     <v-text-field label="Amount2*"  v-model="editedItem.amount2"
                     required></v-text-field>
                   </v-col>
+                  <v-col cols="12">
+                    <v-dialog ref="dialog" :return-value.sync="date" persistent width="290px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="editedItem.duedate" label="Due Date" prepend-icon="mdi-calendar" readonly
+                        v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="editedItem.duedate" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="editedItem.duedate = false">
+                        Cancel
+                      </v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date)">
+                        OK
+                      </v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+                  </v-col>
                 
                 <v-col cols="12">
                   <v-checkbox v-model="editedItem.status" :value="editedItem.status" label="Paid-checkbox"></v-checkbox>
@@ -438,6 +455,7 @@ export default {
       fd.append('amount2', this.editedItem.amount2)
       fd.append('servicesname1', this.editedItem.service1)
       fd.append('servicesname2', this.editedItem.service2)
+      fd.append('duedate', this.editedItem.duedate)
       fd.append('paid', this.editedItem.status ? 'True' : 'False')
       console.log(fd);
       const baseURI = 'http://3.10.162.220:8000/edit_invoice/' + this.editedItem.id
@@ -534,7 +552,7 @@ export default {
         })
         
       
-    },
+    },  
 
     deleteItem(item) {
       console.log(item)
