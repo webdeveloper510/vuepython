@@ -5,10 +5,6 @@
     <v-row>
       <v-col>
         <div class="d-flex justify-end date_menu_container">
-
-
-
-
         </div>
       </v-col>
     </v-row>

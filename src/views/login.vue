@@ -52,7 +52,7 @@ export default {
       var fd = new FormData();
       fd.append('username', this.account.username)
       fd.append('password', this.account.password)
-      const baseURI = 'http://13.40.100.181/api-token-auth/'// Here is login Api
+      const baseURI = 'http://13.40.100.181:443/api-token-auth/'// Here is login Api
       await this.$http.post(baseURI, fd).then(response => {
         console.log(response)
            localStorage.setItem('user',response.data.token)

@@ -319,7 +319,7 @@ export default {
       paid:false
 
     },
-    link:"http://13.40.100.181/get_pdf_path/",
+    link:"http://13.40.100.181:443/get_pdf_path/",
     ArtistDetails: [],
     Partner: [],
     id: '',
@@ -412,7 +412,7 @@ export default {
       fd.append('artist', this.form.artist)
       fd.append('name', this.form.name)
       fd.append('paid', this.form.paid)
-      const baseURI = 'http://13.40.100.181/insert_finance/'
+      const baseURI = 'http://13.40.100.181:443/insert_finance/'
       await this.$http.post(baseURI, fd).then(response => {
         this.dialog = false;
         this.getFinence();
@@ -436,7 +436,7 @@ export default {
       fd.append('amount2', this.invoice.amount2 ? this.invoice.amount2:'00')
       fd.append('duedate', this.invoice.duedate)
       fd.append('paid', this.invoice.paid)
-      const baseURI = 'http://13.40.100.181/insert_invoice/'
+      const baseURI = 'http://13.40.100.181:443/insert_invoice/'
       await this.$http.post(baseURI, fd).then(response => {
         this.Invoice = false;
         console.log(response.data)
@@ -461,7 +461,7 @@ export default {
       fd.append('duedate', this.editedItem.duedate)
       fd.append('paid', this.editedItem.status ? 'True' : 'False')
       console.log(fd);
-      const baseURI = 'http://13.40.100.181/edit_invoice/' + this.editedItem.id
+      const baseURI = 'http://13.40.100.181:443/edit_invoice/' + this.editedItem.id
       await this.$http.post(baseURI, fd).then(response => {
         this.edit = false;
         this.getFinence();
@@ -477,7 +477,7 @@ export default {
 
 
     async getFinence() {
-      const baseURI = 'http://13.40.100.181/insert_invoice/'
+      const baseURI = 'http://13.40.100.181:443/insert_invoice/'
       await this.$http.get(baseURI).then(response => {
         // JSON responses are automatically parsed.
         console.log(response)
@@ -491,7 +491,7 @@ export default {
 
     },
     async amount_to_paid() {
-      const baseURI = 'http://13.40.100.181/amount_to_be_paid/'
+      const baseURI = 'http://13.40.100.181:443/amount_to_be_paid/'
       await this.$http.get(baseURI).then(response => {
         // JSON responses are automatically parsed.
         console.log(response)
@@ -502,7 +502,7 @@ export default {
         })
     },  
     async getOverdue() {
-      const baseURI = 'http://13.40.100.181/show_overdue_amount/'
+      const baseURI = 'http://13.40.100.181:443/show_overdue_amount/'
       await this.$http.get(baseURI).then(response => {
         // JSON responses are automatically parsed.
         this.Overdue = response.data.overdue_amount
@@ -516,7 +516,7 @@ export default {
     },
 
     async getArtist() {
-      const baseURI = 'http://13.40.100.181/get_invoice_details/'
+      const baseURI = 'http://13.40.100.181:443/get_invoice_details/'
       await this.$http.get(baseURI).then(response => {
         // JSON responses are automatically parsed.
 
@@ -550,7 +550,7 @@ export default {
       var fd = new FormData();
         fd.append('status',e.target.checked ? 'True' : 'False')
         fd.append('id',id)
-      const baseURI = 'http://13.40.100.181/update_status/'
+      const baseURI = 'http://13.40.100.181:443/update_status/'
       await this.$http.post(baseURI,fd).then(response => {       
         console.log(response )
         this.getFinence();
@@ -577,7 +577,7 @@ export default {
         var fd = new FormData();
         fd.append('id', this.id)
         console.log(this.id)
-        const baseURI = 'http://13.40.100.181/delete_invoice/' 
+        const baseURI = 'http://13.40.100.181:443/delete_invoice/' 
         await this.$http.post(baseURI, fd).then(response => {
           console.log(response)
           this.desserts = response.data
